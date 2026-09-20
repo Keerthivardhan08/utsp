@@ -256,7 +256,38 @@ const [expandedScheme, setExpandedScheme] = useState<string|null>(null);
   };
 
 return <main className="dash">
-<header><div className="brand">🌿 <b>Tribal Scholarship</b></div><div className="headerRight"><button className="jagoBtn" onClick={()=>setTab('jago')}>🤖 Ask Jago</button><button className="jagoBtn" onClick={logout}>🚪 Logout</button><button onClick={()=>setTab('notifications')}>🔔 {notes.filter((n:any)=>!n.read).length}</button><div className="avatar">{user.name?.[0]||'U'}</div></div></header> <div className="layout"><aside><div className="welcome"><span>{student?'Student Portal':'Operations Portal'}</span><b>{user.name}</b></div>{(student?['overview','schemes','apply','track','documents','api-status','notifications','grievances','jago']:['overview','applications','exceptions','payments','grievances','analytics']).map((x:string)=><button className={tab===x?'nav active':'nav'} onClick={()=>setTab(x)} key={x}>{({overview:'🏠 Overview',schemes:'🎓 Scholarships',apply:'📝 Apply',track:'📍 Track Status',documents:'📄 Document Wallet','api-status':'⚡ API Status',notifications:'🔔 Notifications',grievances:'🆘 Grievances',jago:'🤖 Jago',applications:'📋 Applications',exceptions:'⚠️ Exceptions',payments:'💳 DBT & Payments',analytics:'📊 Analytics'} as any)[x]}</button>)}</aside> <section className="content"><div className="pageTop"><div><span className="eyebrow">UNIFIED SCHOLARSHIP JOURNEY</span><h1>{tab==='overview'?`Good day, ${user.name?.split(' ')[0]||'there'} 👋`:tab==='api-status'?'API Integrations':tab.replace('-', ' ')}</h1></div><span className="statusBadge">● API Setu Connected</span></div>{message&&<div className="toast wide">{message}</div>}
+  <aside>
+    <div className="logo">🌿 <b>Tribal Scholarship</b></div>
+    <div className="nav">
+      {(student?['overview','schemes','apply','track','documents','api-status','notifications','grievances','jago']:['overview','applications','exceptions','payments','grievances','analytics']).map((x:string)=><button className={tab===x?'active':''} onClick={()=>setTab(x)} key={x}>{({overview:'🏠 Overview',schemes:'🎓 Scholarships',apply:'📝 Apply',track:'📍 Track Status',documents:'📄 Document Wallet','api-status':'⚡ API Status',notifications:'🔔 Notifications',grievances:'🆘 Grievances',jago:'🤖 Jago',applications:'📋 Applications',exceptions:'⚠️ Exceptions',payments:'💳 DBT & Payments',analytics:'📊 Analytics'} as any)[x]}</button>)}
+    </div>
+    
+    <div style={{marginTop: 'auto', paddingTop: '20px', display: 'flex', flexDirection: 'column', gap: '10px'}}>
+      <div style={{display: 'flex', alignItems: 'center', gap: '10px', padding: '10px', borderTop: '1px solid var(--border)'}}>
+        <div style={{width: '32px', height: '32px', borderRadius: '50%', background: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold'}}>{user.name?.[0]||'U'}</div>
+        <div style={{fontSize: '14px', overflow: 'hidden'}}>
+          <strong style={{display: 'block', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden'}}>{user.name}</strong>
+          <div style={{color: 'var(--text-secondary)', fontSize: '12px'}}>{student ? 'Student' : 'Operations Portal'}</div>
+        </div>
+      </div>
+      <button style={{width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #fee2e2', background: '#fef2f2', color: '#dc2626', fontWeight: 'bold', cursor: 'pointer', transition: '0.2s'}} onClick={logout}>🚪 Logout</button>
+    </div>
+  </aside>
+
+  <section className="content">
+    <div className="contentHeader">
+      <div>
+        <h1>{tab==='overview'?`Good day, ${user.name?.split(' ')[0]||'there'} 👋`:tab==='api-status'?'API Integrations':tab.replace('-', ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())}</h1>
+        <p>{tab==='overview' ? 'Welcome to your unified scholarship portal.' : 'Manage your applications and documents seamlessly.'}</p>
+      </div>
+      <div style={{display: 'flex', gap: '12px'}}>
+        <button style={{padding: '10px 16px', borderRadius: '8px', background: 'var(--primary-light)', color: 'var(--primary)', border: 'none', fontWeight: 'bold', cursor: 'pointer'}} onClick={()=>setTab('jago')}>🤖 Ask Jago</button>
+        <button style={{padding: '10px 16px', borderRadius: '8px', background: 'white', color: 'var(--text)', border: '1px solid var(--border)', fontWeight: 'bold', cursor: 'pointer', position: 'relative'}} onClick={()=>setTab('notifications')}>
+          🔔 Alerts {notes.filter((n:any)=>!n.read).length > 0 && <span style={{position: 'absolute', top: '-5px', right: '-5px', background: 'var(--danger)', color: 'white', fontSize: '10px', padding: '2px 6px', borderRadius: '999px'}}>{notes.filter((n:any)=>!n.read).length}</span>}
+        </button>
+      </div>
+    </div>
+    {message&&<div style={{padding: '16px', background: 'var(--primary-light)', color: 'var(--primary)', borderRadius: '8px', marginBottom: '20px', fontWeight: '500'}}>{message}</div>}
 
 {showCVL && <div className="cvlOverlay" onClick={()=>setShowCVL(false)}><div className="cvlModal" onClick={e=>e.stopPropagation()}>
 <h3>⚡ CVL Orchestration Engine</h3>
