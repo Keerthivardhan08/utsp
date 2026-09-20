@@ -201,7 +201,27 @@ return <main className="auth">
 
 <section className="hero"> <div className="brand">🌿 <b>Tribal Scholarship</b></div> <div className="heroText"><span className="pill">ONE UNIFIED JOURNEY</span><h1>Scholarships, <em>simplified.</em></h1><p>Discover • Apply • Verify • Receive — in one secure, friendly platform.</p></div> <div className="journey">{['🔎 Discover','📝 Apply','📄 Verify','✅ Approve','💳 Receive'].map((x,i)=><div key={x}><b>{i+1}</b>{x}</div>)}</div>
 <div className="apiStrip"><b>API Integrations:</b> DigiLocker • API Setu • UIDAI eKYC • UDISE+ • APAAR • NPCI • PFMS • UGC NET</div>
-<div className="jagoMini">🤖 <b>Jago AI</b><span> Your 24/7 scholarship companion</span></div> </section> <section className="authCard"> <div className="tabs"><button className={mode==='login'?'active':''} onClick={()=>setMode('login')}>Login</button><button className={mode==='register'?'active':''} onClick={()=>{setMode('register');setRole('student')}}>Register</button></div> <h2>{mode==='login'?'Welcome back 👋':'Create your student account ✨'}</h2> <p className="muted">{mode==='login'?'Choose your portal to continue.':'Start your unified scholarship journey.'}</p> <div className="roles">{roles.map(r=><button disabled={mode==='register'&&r.id!=='student'} onClick={()=>setRole(r.id)} className={role===r.id?'role selected':'role'} key={r.id}><span>{r.icon}</span><b>{r.name}</b><small>{r.desc}</small></button>)}</div> {mode==='register'&&<label>Name<input value={name} onChange={e=>setName(e.target.value)} placeholder="Your full name"/></label>} <label>Mobile / Email<input value={identifier} onChange={e=>setIdentifier(e.target.value)} placeholder="Enter mobile number or email"/></label> <label>Password<input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••"/></label> <button className="primary" onClick={auth}>{mode==='login'?'Continue →':'Create account →'}</button> <div className="secure">🔐 Secure access • Role-based permissions • Privacy-first design</div> {message&&<div className="toast">{message}</div>} </section> </main> }
+<div className="jagoMini">🤖 <b>Jago AI</b><span> Your 24/7 scholarship companion</span></div> </section> <section className="authCard">
+  <div style={{display:'flex', gap:'10px', marginBottom:'24px', padding:'4px', background:'var(--background)', borderRadius:'12px'}}>
+    <button style={{flex:1, padding:'10px', borderRadius:'8px', border:'none', background:mode==='login'?'white':'transparent', boxShadow:mode==='login'?'var(--shadow-sm)':'none', color:mode==='login'?'var(--primary)':'var(--text-secondary)', fontWeight:'600', cursor:'pointer'}} onClick={()=>setMode('login')}>Login</button>
+    <button style={{flex:1, padding:'10px', borderRadius:'8px', border:'none', background:mode==='register'?'white':'transparent', boxShadow:mode==='register'?'var(--shadow-sm)':'none', color:mode==='register'?'var(--primary)':'var(--text-secondary)', fontWeight:'600', cursor:'pointer'}} onClick={()=>{setMode('register');setRole('student')}}>Register</button>
+  </div>
+  
+  <h2>{mode==='login'?'Welcome back 👋':'Create your account ✨'}</h2>
+  <p style={{color:'var(--text-secondary)', marginBottom:'28px'}}>{mode==='login'?'Choose your portal to continue.':'Start your unified scholarship journey.'}</p>
+  
+  <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'12px', marginBottom:'24px'}}>
+    {roles.map(r=><button disabled={mode==='register'&&r.id!=='student'} onClick={()=>setRole(r.id)} style={{padding:'12px', textAlign:'left', borderRadius:'12px', border:'1px solid', borderColor:role===r.id?'var(--primary)':'var(--border)', background:role===r.id?'var(--primary-light)':'white', opacity:(mode==='register'&&r.id!=='student')?0.5:1, cursor:'pointer', display:'flex', flexDirection:'column', gap:'4px'}} key={r.id}><span style={{fontSize:'20px'}}>{r.icon}</span><b style={{color:role===r.id?'var(--primary)':'var(--text)'}}>{r.name}</b><small style={{color:'var(--text-secondary)', fontSize:'11px'}}>{r.desc}</small></button>)}
+  </div>
+  
+  {mode==='register'&&<div className="inputGroup"><label>Full Name</label><input value={name} onChange={e=>setName(e.target.value)} placeholder="Your full name"/></div>}
+  <div className="inputGroup"><label>Mobile / Email</label><input value={identifier} onChange={e=>setIdentifier(e.target.value)} placeholder="Enter mobile number or email"/></div>
+  <div className="inputGroup"><label>Password</label><input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••"/></div>
+  
+  <button className="primary" onClick={auth} style={{marginTop:'12px'}}>{mode==='login'?'Continue →':'Create account →'}</button>
+  <div style={{marginTop:'24px', textAlign:'center', fontSize:'12px', color:'var(--text-secondary)'}}>🔐 Secure access • Role-based permissions • Privacy-first design</div>
+  {message&&<div style={{marginTop:'16px', padding:'12px', borderRadius:'8px', background:'#fee2e2', color:'#dc2626', fontSize:'14px', textAlign:'center', fontWeight:'500'}}>{message}</div>}
+</section> </main> }
 
 function Dashboard(p:any){
 const {user,tab,setTab,apps,docs,setDocs,notes,schemes,form,setForm,submitApp,addDoc,isFetchingDoc,setIsFetchingDoc,processDBT,updateAppStatus,message,cvlSteps,showCVL,setShowCVL,logout}=p;
