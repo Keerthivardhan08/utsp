@@ -458,16 +458,34 @@ aside {
   gap: 10px;
 }
 
+
 .listRow {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 16px;
+  gap: 16px;
+  padding: 20px;
   background: white;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  transition: 0.2s ease;
 }
+.listRow:hover {
+  border-color: #d8cdfb;
+  box-shadow: 0 6px 16px rgba(91, 60, 196, 0.08);
+  transform: translateY(-2px);
+}
+.listRow b {
+  font-size: 16px;
+  color: var(--text);
+}
+.listRow p {
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin-top: 4px;
+}
+
 
 /* ========================================
    JAGO AI

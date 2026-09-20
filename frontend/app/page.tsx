@@ -419,8 +419,18 @@ return <main className="dash">
 </Panel>}
 
 <Panel title="Available Scholarship Schemes (5)">
-  <div className="schemeGrid">
-    {schemes.map((s:any)=><div className="scheme" key={s.id} style={{padding:'16px'}}><span className="schemeIcon" style={{fontSize:24}}>🎓</span><h3 style={{fontSize:15, margin:'8px 0'}}>{s.name}</h3><span className="chip">{s.level}</span><p style={{fontSize:13, margin:'8px 0'}}>{s.description}</p><button className="link" onClick={()=>{setForm({...form,scheme_id:s.id});setTab('apply')}}>Apply Now →</button></div>)}
+  <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(320px, 1fr))', gap:'20px'}}>
+    {schemes.map((s:any)=><div key={s.id} style={{background:'white', borderRadius:'16px', border:'1px solid var(--border)', padding:'24px', display:'flex', flexDirection:'column', gap:'16px', boxShadow:'0 4px 12px rgba(0,0,0,0.03)', transition:'0.3s', cursor:'pointer'}} onMouseOver={e=>e.currentTarget.style.transform='translateY(-4px)'} onMouseOut={e=>e.currentTarget.style.transform='translateY(0)'}>
+      <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-start'}}>
+        <div style={{width:'48px', height:'48px', borderRadius:'12px', background:'linear-gradient(135deg, var(--primary), var(--primary-dark))', color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'24px', boxShadow:'0 4px 12px rgba(91, 60, 196, 0.3)'}}>🎓</div>
+        <span style={{background:'var(--primary-light)', color:'var(--primary)', padding:'4px 10px', borderRadius:'999px', fontSize:'11px', fontWeight:'700', letterSpacing:'0.5px'}}>{s.level.toUpperCase()}</span>
+      </div>
+      <div>
+        <h3 style={{fontSize:'18px', fontWeight:'700', color:'var(--text)', margin:'0 0 8px 0', lineHeight:'1.3'}}>{s.name}</h3>
+        <p style={{fontSize:'14px', color:'var(--text-secondary)', margin:0, lineHeight:'1.5'}}>{s.description}</p>
+      </div>
+      <button style={{marginTop:'auto', padding:'12px', background:'#f8faff', border:'1px solid rgba(91, 60, 196, 0.15)', color:'var(--primary)', borderRadius:'10px', fontWeight:'600', cursor:'pointer', transition:'0.2s', width:'100%'}} onMouseOver={e=>{e.currentTarget.style.background='var(--primary)'; e.currentTarget.style.color='white'}} onMouseOut={e=>{e.currentTarget.style.background='#f8faff'; e.currentTarget.style.color='var(--primary)'}} onClick={()=>{setForm({...form,scheme_id:s.id});setTab('apply')}}>Apply Now →</button>
+    </div>)}
   </div>
 </Panel>
 
@@ -1052,8 +1062,7 @@ function Jago(){
     'What is the eligibility criteria?',
     'How does CVL verification work?',
     'How do DigiLocker and API Setu connect?',
-    'How does DBT payment work?',
-    'I have a problem with my application'
+    'How does DBT payment work?'
   ]);
   const [sessionId] = useState('s-'+Math.random().toString(36).slice(2));
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -1083,22 +1092,33 @@ function Jago(){
     setTyping(false);
   };
 
-  return <div className="jago">
-    <div className="jagoHead">
-      🤖 <div><b>Jago</b><small>AI Scholarship Assistant</small></div>
-    </div>
-    <div className="chat" id="jagoChat">
-      {msgs.map((m, i) => <div key={i} className={`bubble ${m.type}`} style={{whiteSpace:'pre-line'}}>{m.text}</div>)}
-      {typing && <div className="bubble bot typingBubble"><span className="dot"></span><span className="dot"></span><span className="dot"></span></div>}
-      <div className="quick">
-        {suggestions.map((s,i) => <button key={s+i} onClick={()=>handleQ(s)}>{s}</button>)}
+  return <div style={{display:'flex', flexDirection:'column', height:'calc(100vh - 120px)', background:'white', borderRadius:'24px', boxShadow:'0 10px 40px rgba(0,0,0,0.08)', overflow:'hidden', border:'1px solid var(--border)'}}>
+    <div style={{padding:'20px 24px', background:'linear-gradient(135deg, var(--primary), var(--primary-dark))', color:'white', display:'flex', alignItems:'center', gap:'16px'}}>
+      <div style={{width:'48px', height:'48px', background:'rgba(255,255,255,0.2)', borderRadius:'12px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'24px'}}>🤖</div>
+      <div>
+        <b style={{display:'block', fontSize:'18px'}}>Jago AI</b>
+        <span style={{fontSize:'13px', opacity:0.8}}>Your intelligent scholarship assistant</span>
       </div>
+    </div>
+    
+    <div style={{flex:1, padding:'24px', overflowY:'auto', display:'flex', flexDirection:'column', gap:'16px', background:'#f8f9fc'}}>
+      {msgs.map((m, i) => (
+        <div key={i} style={{alignSelf: m.type==='user'?'flex-end':'flex-start', maxWidth:'80%', padding:'16px', borderRadius:'16px', background: m.type==='user'?'var(--primary)':'white', color: m.type==='user'?'white':'var(--text)', boxShadow:'0 4px 12px rgba(0,0,0,0.05)', border: m.type==='user'?'none':'1px solid var(--border)', whiteSpace:'pre-line', fontSize:'15px', lineHeight:'1.5', borderBottomRightRadius: m.type==='user'?'4px':'16px', borderBottomLeftRadius: m.type==='bot'?'4px':'16px'}}>
+          {m.text}
+        </div>
+      ))}
+      {typing && <div style={{alignSelf:'flex-start', padding:'16px', borderRadius:'16px', background:'white', border:'1px solid var(--border)', borderBottomLeftRadius:'4px', display:'flex', gap:'4px'}}><span className="dot">•</span><span className="dot">•</span><span className="dot">•</span></div>}
+      
+      {suggestions.length > 0 && <div style={{display:'flex', flexWrap:'wrap', gap:'8px', marginTop:'16px'}}>
+        {suggestions.map((s,i) => <button key={s+i} onClick={()=>handleQ(s)} style={{padding:'10px 16px', background:'var(--primary-light)', color:'var(--primary-dark)', border:'1px solid rgba(91, 60, 196, 0.2)', borderRadius:'999px', fontSize:'13px', fontWeight:'500', cursor:'pointer', transition:'0.2s', textAlign:'left'}}>{s}</button>)}
+      </div>}
       <div ref={chatEndRef}/>
     </div>
-    <div className="jagoInput">
-      <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>{if(e.key==='Enter' && !e.shiftKey)handleQ(input)}} placeholder="Ask Jago anything about scholarships, applications, documents..." />
-      <button onClick={()=>handleQ(input)} className="sendBtn" disabled={typing}>
-        {typing ? '...' : 'Send →'}
+    
+    <div style={{padding:'20px', background:'white', borderTop:'1px solid var(--border)', display:'flex', gap:'12px'}}>
+      <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>{if(e.key==='Enter' && !e.shiftKey)handleQ(input)}} placeholder="Ask Jago anything..." style={{flex:1, padding:'16px 20px', borderRadius:'999px', border:'1px solid var(--border)', background:'#f1f5f9', outline:'none', fontSize:'15px'}} />
+      <button onClick={()=>handleQ(input)} disabled={typing} style={{width:'54px', height:'54px', borderRadius:'50%', background:'var(--primary)', color:'white', border:'none', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', opacity:typing?0.5:1, boxShadow:'0 4px 12px rgba(91, 60, 196, 0.3)'}}>
+        <span style={{fontSize:'20px'}}>↑</span>
       </button>
     </div>
   </div>
