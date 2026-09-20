@@ -783,7 +783,7 @@ return <main className="dash">
 {student&&tab==='notifications'&&<Panel title="Notification Center">{notes.map((n:any)=><div className="listRow" key={n.id}><span>{n.kind==='success'?'🟢':n.kind==='warning'?'🟠':'🔵'}</span><div><b>{n.title}</b><p>{n.message}</p></div><small>{new Date(n.created_at).toLocaleString()}</small></div>)}</Panel>} {student&&tab==='grievances'&&<Panel title="Grievance & support"><p>Submit a grievance and receive updates through the same notification engine.</p><button className="primary small" onClick={async()=>{await fetch(API+'/grievances',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({student_id:user.id,subject:'Application support',description:'Demo grievance'})}); setTab('notifications')}}>Create demo grievance</button></Panel>} {student&&tab==='jago'&&<Jago/>} 
 {!student&&(tab==='overview'||tab==='applications'||tab==='exceptions'||tab==='payments')&&<Operations role={user.role} apps={tab==='exceptions'?apps.filter((a:any)=>a.status==='CVL_REVIEW'):tab==='payments'?apps.filter((a:any)=>a.status==='SANCTIONED'||a.status==='PAID'):apps} processDBT={processDBT} updateAppStatus={updateAppStatus} schemes={schemes} tab={tab}/>}
 {!student&&tab==='analytics'&&<Analytics apps={apps} />}
-</section></div> </main> }
+</section> </main> }
 
 function Analytics({apps}:any) {
   const [activeView, setActiveView] = useState('gap');
