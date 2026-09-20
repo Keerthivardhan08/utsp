@@ -199,9 +199,35 @@ async function updateAppStatus(id:string, status:string, remarks:string=''){
 if(user) return <Dashboard user={user} tab={tab} setTab={setTab} apps={apps} docs={docs} setDocs={setDocs} notes={notes} schemes={schemes} form={appForm} setForm={setAppForm} submitApp={submitApp} addDoc={addDoc} isFetchingDoc={isFetchingDoc} setIsFetchingDoc={setIsFetchingDoc} processDBT={processDBT} updateAppStatus={updateAppStatus} message={message} cvlSteps={cvlSteps} showCVL={showCVL} setShowCVL={setShowCVL} logout={logout} />;
 return <main className="auth">
 
-<section className="hero"> <div className="brand">🌿 <b>Tribal Scholarship</b></div> <div className="heroText"><span className="pill">ONE UNIFIED JOURNEY</span><h1>Scholarships, <em>simplified.</em></h1><p>Discover • Apply • Verify • Receive — in one secure, friendly platform.</p></div> <div className="journey">{['🔎 Discover','📝 Apply','📄 Verify','✅ Approve','💳 Receive'].map((x,i)=><div key={x}><b>{i+1}</b>{x}</div>)}</div>
-<div className="apiStrip"><b>API Integrations:</b> DigiLocker • API Setu • UIDAI eKYC • UDISE+ • APAAR • NPCI • PFMS • UGC NET</div>
-<div className="jagoMini">🤖 <b>Jago AI</b><span> Your 24/7 scholarship companion</span></div> </section> <section className="authCard">
+<section className="hero" style={{padding:'60px', background:'linear-gradient(135deg, #1e1b4b, #4338ca)', color:'white', display:'flex', flexDirection:'column', justifyContent:'space-between', position:'relative', overflow:'hidden'}}>
+  <div style={{position:'absolute', top:'-150px', right:'-150px', width:'400px', height:'400px', background:'rgba(255,255,255,0.05)', borderRadius:'50%', zIndex:0}}></div>
+  
+  <div style={{zIndex:1}}>
+    <div style={{display:'flex', alignItems:'center', gap:'12px', fontSize:'22px', fontWeight:'700', marginBottom:'80px', color:'#a5b4fc'}}>
+      <span style={{fontSize:'28px'}}>🌿</span> Tribal Scholarship
+    </div>
+    
+    <div>
+      <span style={{background:'rgba(255,255,255,0.1)', padding:'6px 12px', borderRadius:'999px', fontSize:'12px', fontWeight:'600', letterSpacing:'1px', color:'#e0e7ff'}}>ONE UNIFIED JOURNEY</span>
+      <h1 style={{fontSize:'64px', fontWeight:'800', lineHeight:'1.1', margin:'24px 0', letterSpacing:'-2px'}}>Scholarships, <br/><em style={{fontStyle:'normal', color:'#a5b4fc'}}>simplified.</em></h1>
+      <p style={{fontSize:'20px', color:'#c7d2fe', maxWidth:'480px', lineHeight:'1.5'}}>Discover, Apply, Verify, and Receive — in one secure, student-friendly platform.</p>
+    </div>
+  </div>
+
+  <div style={{zIndex:1, marginTop:'60px', display:'flex', flexDirection:'column', gap:'24px'}}>
+    <div style={{display:'flex', gap:'16px'}}>
+      {['🔎 Discover','📝 Apply','📄 Verify','✅ Approve','💳 Receive'].map((x,i)=><div key={x} style={{background:'rgba(255,255,255,0.1)', padding:'12px 16px', borderRadius:'12px', display:'flex', alignItems:'center', gap:'10px', backdropFilter:'blur(10px)', border:'1px solid rgba(255,255,255,0.1)'}}><b style={{background:'rgba(255,255,255,0.2)', width:'24px', height:'24px', display:'flex', alignItems:'center', justifyContent:'center', borderRadius:'50%', fontSize:'12px'}}>{i+1}</b><span style={{fontSize:'14px', fontWeight:'500'}}>{x.split(' ')[1]}</span></div>)}
+    </div>
+    <div style={{display:'flex', alignItems:'center', gap:'12px', background:'rgba(0,0,0,0.2)', padding:'16px', borderRadius:'12px', border:'1px solid rgba(255,255,255,0.05)'}}>
+      <b style={{color:'#a5b4fc', fontSize:'14px'}}>API Integrations:</b>
+      <span style={{fontSize:'13px', color:'#e0e7ff', opacity:0.8}}>DigiLocker • API Setu • UIDAI eKYC • UDISE+ • APAAR • NPCI • PFMS</span>
+    </div>
+    <div style={{display:'inline-flex', alignItems:'center', gap:'12px', background:'linear-gradient(90deg, rgba(255,255,255,0.15), transparent)', padding:'12px 20px', borderRadius:'999px', width:'fit-content'}}>
+      <span style={{fontSize:'20px'}}>🤖</span> 
+      <div><b style={{display:'block', fontSize:'14px'}}>Jago AI</b><span style={{fontSize:'12px', color:'#c7d2fe'}}>Your 24/7 scholarship companion</span></div>
+    </div>
+  </div>
+</section> <section className="authCard">
   <div style={{display:'flex', gap:'10px', marginBottom:'24px', padding:'4px', background:'var(--background)', borderRadius:'12px'}}>
     <button style={{flex:1, padding:'10px', borderRadius:'8px', border:'none', background:mode==='login'?'white':'transparent', boxShadow:mode==='login'?'var(--shadow-sm)':'none', color:mode==='login'?'var(--primary)':'var(--text-secondary)', fontWeight:'600', cursor:'pointer'}} onClick={()=>setMode('login')}>Login</button>
     <button style={{flex:1, padding:'10px', borderRadius:'8px', border:'none', background:mode==='register'?'white':'transparent', boxShadow:mode==='register'?'var(--shadow-sm)':'none', color:mode==='register'?'var(--primary)':'var(--text-secondary)', fontWeight:'600', cursor:'pointer'}} onClick={()=>{setMode('register');setRole('student')}}>Register</button>
@@ -346,7 +372,11 @@ return <main className="dash">
 </div>
 </div></div>}
 
-{student&&tab==='overview'&&<><div className="journeyCard"><h3>Your Scholarship Journey</h3><div className="timeline">{['Discover','Apply','Document Wallet','CVL Verification','Nodal Review','Approval','DBT','Received'].map((x:string,i:number)=>{
+{student&&tab==='overview'&&<><div style={{background:'linear-gradient(135deg, #472ca3, #6b46d9)', borderRadius:'16px', padding:'32px', color:'white', marginBottom:'24px', boxShadow:'0 10px 30px rgba(71, 44, 163, 0.2)'}}>
+  <h3 style={{margin:'0 0 24px 0', fontSize:'20px', fontWeight:'600'}}>Your Scholarship Journey</h3>
+  <div style={{display:'flex', justifyContent:'space-between', position:'relative', padding:'0 10px'}}>
+    <div style={{position:'absolute', top:'16px', left:'30px', right:'30px', height:'3px', background:'rgba(255,255,255,0.2)', zIndex:0}}></div>
+    {['Discover','Apply','Document Wallet','CVL Verification','Nodal Review','Approval','DBT','Received'].map((x:string,i:number)=>{
   let step = 1; // Discover is always done
   if (apps.length > 0) {
     const s = apps[0].status;
@@ -358,7 +388,12 @@ return <main className="dash">
     if (s === 'DBT_PROCESSING') step = 7;
     if (s === 'PAID') step = 8;
   }
-  return <div className={(i<step? 'done ':'')+'time'} key={x}><span>{i<step?'✓':i+1}</span><small>{x}</small></div>
+  return <div key={x} style={{display:'flex', flexDirection:'column', alignItems:'center', gap:'12px', zIndex:1, width:'80px', textAlign:'center'}}>
+      <div style={{width:'36px', height:'36px', borderRadius:'50%', background:i<step?'#10b981':'#311c79', border:i<step?'none':'2px solid rgba(255,255,255,0.3)', color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:'bold', fontSize:'14px', boxShadow:i<step?'0 0 15px rgba(16,185,129,0.5)':'none'}}>
+        {i<step?'✓':i+1}
+      </div>
+      <small style={{fontSize:'12px', lineHeight:'1.2', fontWeight:'500', color:i<step?'white':'rgba(255,255,255,0.6)'}}>{x}</small>
+    </div>
 })}</div></div>
 
 {apps.length > 0 && <Panel title="Active Applications & Disbursement Status">
@@ -979,7 +1014,32 @@ function APIStatusPanel(){
   </Panel>
 }
 
-function Card({icon,title,value,note,action}:any){return <div className="stat"><span>{icon}</span><div><b>{title}</b><strong>{value}</strong><small>{note}</small></div>{action&&<button onClick={action}>Open →</button>}</div>} function Panel({title,children}:any){return <section className="panel"><div className="panelHead"><h3>{title}</h3></div>{children}</section>}
+function Card({icon,title,value,note,action}:any){
+  return <div className="stat" style={{position:'relative', display:'flex', flexDirection:'column', gap:'16px', padding:'24px', background:'white', borderRadius:'16px', border:'1px solid var(--border)', boxShadow:'0 4px 12px rgba(0,0,0,0.03)', overflow:'hidden'}}>
+    <div style={{position:'absolute', top:'-20px', right:'-20px', fontSize:'120px', opacity:0.03, zIndex:0}}>{icon}</div>
+    <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', zIndex:1}}>
+      <div style={{width:'48px', height:'48px', display:'flex', alignItems:'center', justifyContent:'center', background:'var(--primary-light)', color:'var(--primary)', borderRadius:'12px', fontSize:'24px'}}>{icon}</div>
+      {action && <button onClick={action} style={{border:'none', background:'transparent', color:'var(--primary)', cursor:'pointer', fontSize:'14px', fontWeight:'600', padding:'6px 12px', borderRadius:'8px', backgroundColor:'#f8faff'}}>View →</button>}
+    </div>
+    <div style={{zIndex:1}}>
+      <div style={{color:'var(--text-secondary)', fontSize:'15px', fontWeight:'500', marginBottom:'6px'}}>{title}</div>
+      <div style={{fontSize:'36px', fontWeight:'700', color:'var(--text)', letterSpacing:'-1px'}}>{value}</div>
+      {note && <div style={{fontSize:'13px', color:'var(--text-secondary)', marginTop:'8px', display:'flex', alignItems:'center', gap:'6px', fontWeight:'500'}}><span style={{color:'var(--success)'}}>●</span> {note}</div>}
+    </div>
+  </div>
+}
+
+function Panel({title,children, actions}:any){
+  return <section className="panel" style={{background:'white', borderRadius:'16px', border:'1px solid var(--border)', boxShadow:'0 4px 12px rgba(0,0,0,0.03)', overflow:'hidden', marginBottom:'24px'}}>
+    <div className="panelHead" style={{padding:'20px 24px', borderBottom:'1px solid var(--border)', display:'flex', justifyContent:'space-between', alignItems:'center', background:'#fbfbfe'}}>
+      <h3 style={{margin:0, fontSize:'18px', fontWeight:'600', color:'var(--text)'}}>{title}</h3>
+      {actions && <div style={{display:'flex', gap:'10px'}}>{actions}</div>}
+    </div>
+    <div style={{padding:'24px'}}>
+      {children}
+    </div>
+  </section>
+}
 
 function Jago(){
   const [msgs, setMsgs] = useState([
