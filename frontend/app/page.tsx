@@ -197,7 +197,7 @@ async function updateAppStatus(id:string, status:string, remarks:string=''){
     setMessage(`Application marked as ${status.replace('_', ' ')}`);
   } catch(e:any) { setMessage(e.message) }
 }
-if(user) return <Dashboard user={user} tab={tab} setTab={setTab} apps={apps} docs={docs} setDocs={setDocs} notes={notes} schemes={schemes} form={appForm} setForm={setAppForm} submitApp={submitApp} addDoc={addDoc} isFetchingDoc={isFetchingDoc} setIsFetchingDoc={setIsFetchingDoc} processDBT={processDBT} updateAppStatus={updateAppStatus} message={message} cvlSteps={cvlSteps} showCVL={showCVL} setShowCVL={setShowCVL} logout={logout} />;
+if(user) return <Dashboard user={user} tab={tab} setTab={setTab} apps={apps} docs={docs} setDocs={setDocs} notes={notes} schemes={schemes} form={appForm} setForm={setAppForm} submitApp={submitApp} addDoc={addDoc} isFetchingDoc={isFetchingDoc} setIsFetchingDoc={setIsFetchingDoc} processDBT={processDBT} updateAppStatus={updateAppStatus} message={message} cvlSteps={cvlSteps} showCVL={showCVL} setShowCVL={setShowCVL} logout={logout} grievances={grievances} />;
 return <main className="auth">
 
 <section className="hero" style={{padding:'60px', background:'linear-gradient(135deg, #1e1b4b, #4338ca)', color:'white', display:'flex', flexDirection:'column', justifyContent:'space-between', position:'relative', overflow:'hidden'}}>
@@ -251,7 +251,7 @@ return <main className="auth">
 </section> </main> }
 
 function Dashboard(p:any){
-const {user,tab,setTab,apps,docs,setDocs,notes,schemes,form,setForm,submitApp,addDoc,isFetchingDoc,setIsFetchingDoc,processDBT,updateAppStatus,message,cvlSteps,showCVL,setShowCVL,logout}=p;
+const {user,tab,setTab,apps,docs,setDocs,notes,schemes,form,setForm,submitApp,addDoc,isFetchingDoc,setIsFetchingDoc,processDBT,updateAppStatus,message,cvlSteps,showCVL,setShowCVL,logout,grievances}=p;
 const student=user.role==='student';
 const counts={submitted:apps.length,verified:apps.filter((a:any)=>['VERIFIED','NODAL_APPROVED','SANCTIONED','DBT_PROCESSING','PAID'].includes(a.status)).length,paid:apps.filter((a:any)=>a.status==='PAID').length};
 
