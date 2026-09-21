@@ -75,6 +75,7 @@ async function auth(){
       setTab('overview'); 
       const s=await call('/schemes'); setSchemes(s);
       const allApps=await call('/applications?role='+data.user.role); setApps(allApps);
+      const allG=await call('/grievances'); setGrievances(allG);
     }
   }catch(e:any){setMessage(e.message)}
 }
@@ -846,7 +847,7 @@ return <main className="dash">
 {student&&tab==='api-status'&&<APIStatusPanel/>}
 
 {student&&tab==='notifications'&&<Panel title="Notification Center">{notes.map((n:any)=><div className="listRow" key={n.id}><span>{n.kind==='success'?'🟢':n.kind==='warning'?'🟠':'🔵'}</span><div><b>{n.title}</b><p>{n.message}</p></div><small>{new Date(n.created_at).toLocaleString()}</small></div>)}</Panel>} {student&&tab==='grievances'&&<Panel title="Grievance & support"><p>Submit a grievance and receive updates through the same notification engine.</p><button className="primary small" onClick={async()=>{await fetch(API+'/grievances',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({student_id:user.id,subject:'Application support',description:'Demo grievance'})}); setTab('notifications')}}>Create demo grievance</button></Panel>} {student&&tab==='jago'&&<Jago/>} 
-{!student&&(tab==='overview'||tab==='applications'||tab==='exceptions'||tab==='payments')&&<Operations role={user.role} apps={tab==='exceptions'?apps.filter((a:any)=>a.status==='CVL_REVIEW'):tab==='payments'?apps.filter((a:any)=>a.status==='SANCTIONED'||a.status==='PAID'):apps} processDBT={processDBT} updateAppStatus={updateAppStatus} schemes={schemes} tab={tab}/>}
+{!student&&(tab==='overview'||tab==='applications'||tab==='exceptions'||tab==='payments'||tab==='grievances')&&<Operations role={user.role} apps={tab==='exceptions'?apps.filter((a:any)=>a.status==='CVL_REVIEW'):tab==='payments'?apps.filter((a:any)=>a.status==='SANCTIONED'||a.status==='PAID'):apps} processDBT={processDBT} updateAppStatus={updateAppStatus} schemes={schemes} tab={tab} grievances={grievances}/>}
 {!student&&tab==='analytics'&&<Analytics apps={apps} />}
 </section> </main> }
 
@@ -1124,7 +1125,7 @@ function Jago(){
   </div>
 }
 
-function Operations({role,apps,processDBT,updateAppStatus,schemes}:any){
+function Operations({role,apps,processDBT,updateAppStatus,schemes,tab,grievances}:any){
   const [inputs, setInputs] = useState<any>({});
   const handleInputChange = (id:string, val:string) => setInputs({...inputs, [id]: val});
 
@@ -1194,7 +1195,7 @@ function Operations({role,apps,processDBT,updateAppStatus,schemes}:any){
       )}
     </Panel>
 
-{!student&&tab==='grievances'&&<Panel title="Grievance Helpdesk (Admin)">
+{role !== 'student' && tab==='grievances'&&<Panel title="Grievance Helpdesk (Admin)">
   {grievances.length ? (
     <table className="data" width="100%">
       <thead><tr style={{textAlign:'left', background:'#f8fafc'}}>
